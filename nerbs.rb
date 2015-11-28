@@ -2,11 +2,11 @@
 @here = Dir.pwd
 @name = File.basename(@here)
 
+@ssh_user = ENV["USER"]
+@ssh_host = ENV["NERVES_SDK_HOST"]
 @remote_cache_dir = "~/nerbsrv/cache"
 @remote_sdk_dir = "~/nerves-sdk"
 @sdk = "#{@remote_sdk_dir}/nerves-env.sh"
-@ssh_user = "keyvan"
-@ssh_host = "192.168.1.139"
 @ssh_target = "#{@ssh_user}@#{@ssh_host}"
 @there = "#{@remote_cache_dir}/#{@name}"
 

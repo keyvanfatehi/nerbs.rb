@@ -4,12 +4,19 @@ A ruby script for doing nerves development (code editing and firmware updates) f
 
 It works using `ssh` and `rsync` against a networked linux host with the nerves sdk already on it.
 
-Get [fwup](https://github.com/nerves-project/nerves-sdk) to be able to write the firmware to your SD card once nerbs pulls it for you.
-
-Currently it only pushes code, compiles a firmware, and pulls the firmware down. At most, I might add some helpers to switch your defconfig. My intent is to keep this an extremely lean alternative to [bakeware](https://github.com/bakeware) which I couldn't get working.
+You need [fwup](https://github.com/nerves-project/nerves-sdk) to run the `burn-complete` and `burn-upgrade` tasks.
 
 ## Install
 
-`sudo ln -s $PWD/nerbs.rb /usr/local/bin/nerbs.rb`
+Execute `nerbs.rb` from your nerves project directory.
 
-Then you can run `nerbs.rb` from your nerves project directory.
+**It uses the `USER` and `NERVES_SDK_HOST` environment variables to compose `rsync` and `ssh` targets, so make sure they are set**
+
+## Tasks
+
+* build - shorthand for push, compile, and pull
+* push - uploads project source code with `rsync`
+* compile - pushes source code, sources sdk, and compiles remotely with `ssh`
+* pull - downloads the `_images` directory
+* burn-complete - writes the complete image with `fwup`
+* burn-upgrade - writes the upgrade image with `fwup`
