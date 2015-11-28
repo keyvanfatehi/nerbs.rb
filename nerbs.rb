@@ -10,13 +10,11 @@
 @ssh_target = "#{@ssh_user}@#{@ssh_host}"
 @there = "#{@remote_cache_dir}/#{@name}"
 
-def init
-  remote_system "mkdir -p #{@remote_cache_dir}"
-end
-
 def push here
   there = "#{@ssh_target}:#{@remote_cache_dir}"
-  system "rsync --progress -arv --exclude=.git #{here} #{there}"
+  mkdir = %{--rsync-path="mkdir -p #{@remote_cache_dir} && rsync"}
+  excludes = ['.git', '_images'].map{|i| "--exclude=#{i}" }.join(' ')
+  system "rsync #{mkdir} --progress -arv #{excludes} #{here} #{there}"
 end
 
 def remote_system cmd
@@ -27,12 +25,33 @@ def compile remote_dir
   remote_system "source #{@sdk} && cd #{remote_dir} && make"
 end
 
-def pull sub_dir, here
-  there = "#{@ssh_target}:#{@there}/#{sub_dir}"
+def pull here
+  there = "#{@ssh_target}:#{@there}/_images"
   system "rsync --progress -arv #{there} #{here}"
 end
 
-#init
-#push @here
-#compile @there
-pull :_images, @here
+def burn mode
+  system "sudo fwup -a -i #{@here}/_images/*.fw -t #{mode}"
+end
+
+case ARGV[0]
+when "build"
+  push @here
+  compile @there
+  pull @here
+when "push"
+  push @here
+when "compile"
+  push @here
+  compile @there
+when "pull"
+  pull @here
+when "burn-complete"
+  burn :complete
+when "burn-upgrade"
+  burn :upgrade
+else
+  puts "Commands: build, push, compile, pull, burn-complete, burn-upgrade"
+  puts "Note: build will push, compile, and pull"
+  puts "Note: compile will always push first"
+end
