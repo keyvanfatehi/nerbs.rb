@@ -22,7 +22,7 @@ def remote_system cmd
 end
 
 def compile remote_dir
-  remote_system "source #{@sdk} && cd #{remote_dir} && make"
+  remote_system "source #{@sdk} && cd #{remote_dir} && make distclean && make"
 end
 
 def pull here
@@ -31,7 +31,7 @@ def pull here
 end
 
 def burn mode
-  system "sudo fwup -a -i #{@here}/_images/*.fw -t #{mode}"
+  system "sudo fwup -a -i #{@here}/_images/#{@name}.fw -t #{mode}"
 end
 
 case ARGV[0]
