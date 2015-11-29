@@ -2,6 +2,7 @@
 @here = Dir.pwd
 @name = File.basename(@here)
 
+@clean = false
 @ssh_user = ENV["USER"]
 @ssh_host = ENV["NERVES_SDK_HOST"]
 @remote_cache_dir = "~/nerbsrv/cache"
@@ -22,11 +23,14 @@ def remote_system cmd
 end
 
 def compile remote_dir
-  remote_system "source #{@sdk} && cd #{remote_dir} && make distclean && make"
+  remote_system "source #{@sdk} && cd #{remote_dir} #{@clean ? "&& make clean" : ""} && make distclean && make"
 end
 
 def pull here
   there = "#{@ssh_target}:#{@there}/_images"
+  if @clean
+    system "rm -rf #{here}/_images"
+  end
   system "rsync --progress -arv #{there} #{here}"
 end
 
