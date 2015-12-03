@@ -2,7 +2,7 @@
 @here = Dir.pwd
 @name = File.basename(@here)
 
-@clean = false
+@clean = true
 @ssh_user = ENV["USER"]
 @ssh_host = ENV["NERVES_SDK_HOST"]
 @remote_cache_dir = "~/nerbsrv/cache"
