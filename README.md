@@ -1,3 +1,7 @@
+** See this instead https://gist.github.com/kfatehi/f04be4e43602cd014c13 **
+
+---
+
 # nerbs
 
 A ruby script for doing nerves development (code editing and firmware updates) from their Mac.
