@@ -16,6 +16,18 @@ Execute `nerbs.rb` from your nerves project directory.
 
 **It uses the `USER` and `NERVES_SDK_HOST` environment variables to compose `rsync` and `ssh` targets, so make sure they are set**
 
+You can symlink it
+
+    chmod a+x nerbs.rb && ln -s $PWD/nerbs.rb /usr/local/bin/nerbs
+
+And then use this Makefile
+
+    default:
+      NERVES_SDK_HOST=nerves-sdk-bbb nerbs build
+
+    burn-complete:
+      nerbs burn-complete
+
 ## Tasks
 
 * build - shorthand for push, compile, and pull
