@@ -1,4 +1,4 @@
-**See this instead https://gist.github.com/kfatehi/f04be4e43602cd014c13**
+If you're on Mac, use this https://github.com/nerves-project/homebrew-nerves
 
 ---
 
